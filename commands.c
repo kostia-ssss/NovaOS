@@ -2,6 +2,7 @@
 #include <string.h>
 #include <windows.h>
 #include <stdlib.h>
+#include <time.h>
 #include "commands.h"
 
 void change_color(char *c) {
@@ -54,21 +55,113 @@ void clear() {
     SetConsoleCursorPosition(hConsole, homeCoords);
 }
 
-void timer(int seconds) {
-    if (seconds <= 0) {
-        printf("Timer: invalid value (%d)\n", seconds);
+void timer(int seconds, int minutes, int hours) {
+    int total = seconds + minutes * 60 + hours * 3600;
+
+    if (total <= 0) {
+        printf("Timer: invalid value (%d)\n", total);
         return;
     }
 
-    for (int i = seconds; i > 0; i--) {
-        printf("\r%d second(s) remaining...  ", i);
+    for (int i = total; i > 0; i--) {
+        int h = i / 3600;
+        int m = (i % 3600) / 60;
+        int s = i % 60;
+
+        printf("\r%02d hour(s) %02d minute(s) %02d second(s) remaining...", h, m, s);
         fflush(stdout);
         Sleep(1000);
     }
 
-    printf("\rTime's up!                    \n");
-    for (int i = 3; i > 0; i--) {
+    printf("\rTime's up!                                                                 \n");
+    for (int i = 0; i < 3; i++) {
         Beep(1000, 300);
         Sleep(150);
     }
+}
+
+int get_color_code(const char *color) {
+    if (!color) return 7; // default white
+    if (strcmp(color, "black") == 0) return 0;
+    if (strcmp(color, "blue") == 0) return 1;
+    if (strcmp(color, "green") == 0) return 2;
+    if (strcmp(color, "cyan") == 0) return 3;
+    if (strcmp(color, "red") == 0) return 4;
+    if (strcmp(color, "magenta") == 0) return 5;
+    if (strcmp(color, "yellow") == 0) return 6;
+    if (strcmp(color, "white") == 0) return 7;
+    if (strcmp(color, "gray") == 0) return 8;
+    if (strcmp(color, "lightblue") == 0) return 9;
+    if (strcmp(color, "lightgreen") == 0) return 10;
+    if (strcmp(color, "lightcyan") == 0) return 11;
+    if (strcmp(color, "lightred") == 0) return 12;
+    if (strcmp(color, "lightmagenta") == 0) return 13;
+    if (strcmp(color, "lightyellow") == 0) return 14;
+    if (strcmp(color, "brightwhite") == 0) return 15;
+    return 7; // default white
+}
+
+void theme(char *bgColor, char *textColor) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    int bg = get_color_code(bgColor);
+    int text = get_color_code(textColor);
+
+    int color = (bg << 4) | text;
+    SetConsoleTextAttribute(hConsole, color);
+
+    printf("Theme updated! Background: %s, Text: %s\n",
+           bgColor ? bgColor : "default",
+           textColor ? textColor : "default");
+}
+
+void echo(char *text) {
+    printf("%s\n", text);
+}
+
+void music() {
+    int temp = 200;
+    for (size_t i = 0; i < 8; i++)
+    {
+        Beep(208, temp);
+        Beep(277, temp);
+        Beep(330, temp);
+    }
+    for (size_t i = 0; i < 2; i++)
+    {
+        Beep(220, temp);
+        Beep(277, temp);
+        Beep(330, temp);
+    }
+    for (size_t i = 0; i < 2; i++)
+    {
+        Beep(220, temp);
+        Beep(294, temp);
+        Beep(370, temp);
+    }
+    Beep(208, temp);
+    Beep(262, temp);
+    Beep(370, temp);
+    Beep(208, temp);
+    Beep(277, temp);
+    Beep(330, temp);
+    Beep(208, temp);
+    Beep(277, temp);
+    Beep(311, temp);
+    Beep(185, temp);
+    Beep(262, temp);
+    Beep(311, temp);
+}
+
+void time_() {
+    time_t now;           // змінна для часу
+    struct tm *local;     // структура для збереження локального часу
+
+    time(&now);           // отримуємо поточний час (у секундах з 1970)
+    local = localtime(&now);  // конвертуємо у "людську" форму
+
+    printf("Current time: %02d:%02d:%02d\n",
+           local->tm_hour,
+           local->tm_min,
+           local->tm_sec);
 }
