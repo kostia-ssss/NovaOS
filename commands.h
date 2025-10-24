@@ -10,5 +10,8 @@ void theme(char *bgColor, char *textColor);
 void echo(char *text);
 void music();
 void time_();
+void touch(char *filename);
+void cat(char *filename);
+void rm(char *filename);
 
 #endif

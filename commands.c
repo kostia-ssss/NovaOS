@@ -153,3 +153,35 @@ void time_() {
            local->tm_min,
            local->tm_sec);
 }
+
+void rm(char *filename) {
+    if (remove(filename) == 0)
+        printf("File '%s' deleted successfully.\n", filename);
+    else
+        printf("Error: cannot delete file '%s'.\n", filename);
+}
+
+void touch(char *filename) {
+    FILE *file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("Error: cannot create file '%s'.\n", filename);
+        return;
+    }
+    fclose(file);
+    printf("File '%s' created.\n", filename);
+}
+
+void cat(char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("Error: cannot open file '%s'.\n", filename);
+        return;
+    }
+
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+
+    fclose(file);
+}

@@ -100,6 +100,15 @@ int main() {
         else if (strcmp(cmd, "time") == 0) {
             time_();
         }
+        else if (strcmp(cmd, "touch") == 0) {
+            touch(arg1);
+        }
+        else if (strcmp(cmd, "cat") == 0) {
+            cat(arg1);
+        }
+        else if (strcmp(cmd, "rm") == 0) {
+            rm(arg1);
+        }
         else {
             printf("Unknown command: %s\n", cmd);
         }
