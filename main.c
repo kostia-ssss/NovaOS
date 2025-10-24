@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include "commands.h"
+#include "utils.h"
 
 #define INPUT_SIZE 256
 
@@ -26,6 +27,10 @@ int parse_int_default(const char *s, int default_val, int *out_val) {
 }
 
 int main() {
+    Config cfg = load_config();
+    theme(cfg.theme_bg, cfg.theme_text);
+    clear();
+    load_config();
     printf("Welcome to NovaOS!\n");
     char input[INPUT_SIZE];
 

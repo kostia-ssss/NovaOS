@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "commands.h"
+#include "utils.h"
 
 void change_color(char *c) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -36,7 +37,7 @@ void doc(char *func) {
 }
 
 void help() {
-    printf("Commands:\n - help\n - exit\n - timer <seconds>\n - clear\n - cc <color>\n - doc <cmd>\n");
+    printf("Commands:\n - help\n - exit\n - timer <seconds> <minutes> <hours>\n - clear\n - cc <color>\n - doc <cmd>\n - theme <bg color> <text color>\n - time\n - music\n - echo <text>\n");
 }
 
 void clear() {
@@ -80,26 +81,6 @@ void timer(int seconds, int minutes, int hours) {
     }
 }
 
-int get_color_code(const char *color) {
-    if (!color) return 7; // default white
-    if (strcmp(color, "black") == 0) return 0;
-    if (strcmp(color, "blue") == 0) return 1;
-    if (strcmp(color, "green") == 0) return 2;
-    if (strcmp(color, "cyan") == 0) return 3;
-    if (strcmp(color, "red") == 0) return 4;
-    if (strcmp(color, "magenta") == 0) return 5;
-    if (strcmp(color, "yellow") == 0) return 6;
-    if (strcmp(color, "white") == 0) return 7;
-    if (strcmp(color, "gray") == 0) return 8;
-    if (strcmp(color, "lightblue") == 0) return 9;
-    if (strcmp(color, "lightgreen") == 0) return 10;
-    if (strcmp(color, "lightcyan") == 0) return 11;
-    if (strcmp(color, "lightred") == 0) return 12;
-    if (strcmp(color, "lightmagenta") == 0) return 13;
-    if (strcmp(color, "lightyellow") == 0) return 14;
-    if (strcmp(color, "brightwhite") == 0) return 15;
-    return 7; // default white
-}
 
 void theme(char *bgColor, char *textColor) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -113,6 +94,13 @@ void theme(char *bgColor, char *textColor) {
     printf("Theme updated! Background: %s, Text: %s\n",
            bgColor ? bgColor : "default",
            textColor ? textColor : "default");
+
+    Config cfg = load_config(); // завантажуємо конфіг при старті
+
+    // десь при зміні теми
+    strcpy(cfg.theme_bg, bgColor);
+    strcpy(cfg.theme_text, textColor);
+    save_config(cfg); // зберігаємо зміни
 }
 
 void echo(char *text) {
