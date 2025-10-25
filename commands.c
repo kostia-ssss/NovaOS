@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <time.h>
+#include <direct.h>
 #include "commands.h"
 #include "utils.h"
 
@@ -184,4 +185,31 @@ void cat(char *filename) {
     }
 
     fclose(file);
+}
+
+void mkdir_win(char *name) {
+    if (CreateDirectory(name, NULL)) {
+        printf("Folder '%s' created successfully.\n", name);
+    } else {
+        DWORD err = GetLastError();
+        if (err == ERROR_ALREADY_EXISTS) {
+            printf("Folder '%s' already exists.\n", name);
+        } else {
+            printf("Failed to create folder '%s'. Error code: %lu\n", name, err);
+        }
+    }
+}
+
+void rmdir_win(char *name) {
+    if (RemoveDirectory(name)) {
+        printf("Folder '%s' deleted successfully.\n", name);
+    }
+}
+
+void cd(char *path) {
+    if (_chdir(path) == 0) {
+        printf("Directory changed to: %s\n", path);
+    } else {
+        printf("Error: invalid path %s\n", path);
+    }
 }

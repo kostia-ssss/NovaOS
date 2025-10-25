@@ -1,12 +1,14 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#define CONFIG_FILE "config.cfg"
+#define CONFIG_FILE "data/config.cfg"
 
 typedef struct {
     char theme_bg[32];
     char theme_text[32];
+    char user[32];
     int timer_default;
+    int password;
 } Config;
 
 // Завантажує конфіг з файлу. Якщо файлу нема, заповнює дефолтами.

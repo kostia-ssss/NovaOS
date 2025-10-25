@@ -109,6 +109,15 @@ int main() {
         else if (strcmp(cmd, "rm") == 0) {
             rm(arg1);
         }
+        else if (strcmp(cmd, "mkdir") == 0) {
+            mkdir_win(arg1);
+        }
+        else if (strcmp(cmd, "rmdir") == 0) {
+            rmdir_win(arg1);
+        }
+        else if (strcmp(cmd, "cd") == 0) {
+            cd(arg1);
+        }
         else {
             printf("Unknown command: %s\n", cmd);
         }

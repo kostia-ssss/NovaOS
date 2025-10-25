@@ -13,5 +13,8 @@ void time_();
 void touch(char *filename);
 void cat(char *filename);
 void rm(char *filename);
+void mkdir_win(char *name);
+void rmdir_win(char *name);
+void cd(char *path);
 
 #endif

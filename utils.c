@@ -8,7 +8,9 @@ Config load_config() {
     // дефолтні значення
     strcpy(cfg.theme_bg, "black");
     strcpy(cfg.theme_text, "white");
+    strcpy(cfg.user, "USER");
     cfg.timer_default = 60;
+    cfg.password = 00000000;
 
     FILE *f = fopen(CONFIG_FILE, "r");
     if (!f) return cfg; // повертаємо дефолт
@@ -22,7 +24,9 @@ Config load_config() {
 
         if (strcmp(key, "theme_bg") == 0) strcpy(cfg.theme_bg, value);
         else if (strcmp(key, "theme_text") == 0) strcpy(cfg.theme_text, value);
+        else if (strcmp(key, "user") == 0) strcpy(cfg.theme_text, value);
         else if (strcmp(key, "timer_default") == 0) cfg.timer_default = atoi(value);
+        else if (strcmp(key, "password") == 0) cfg.password = atoi(value);
     }
 
     fclose(f);
